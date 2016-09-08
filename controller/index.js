@@ -39,5 +39,12 @@ module.exports = generators.Base.extend({
         let indexOutput = ctrlIndexFile.substr(0, lastLinePos) + `    app.controller('${options.moduleName}.${_.camelCase(options.ctrlName)}Controller', require('./${_.kebabCase(options.ctrlName)}-controller'));\n` + ctrlIndexFile.substr(lastLinePos);
 
         this.fs.write(ctrlIndexFilePath, indexOutput);
+
+        // Copy ctrl unit test template.
+        this.fs.copyTpl(
+          this.templatePath('controller-unit-test.js'),
+          this.destinationPath(`${modulePath}/test/unit/controller/${_.kebabCase(options.ctrlName)}-controller.spec.js`),
+          options
+        );
     }
 });
